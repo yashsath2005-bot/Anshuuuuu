@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💖</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    height:100vh;
+    background:linear-gradient(135deg,#ff4d6d,#ff8fab,#ffd6e0);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+/* Card */
+.card{
+    background:white;
+    width:330px;
+    padding:35px 25px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 25px 50px rgba(0,0,0,0.25);
+    position:relative;
+    z-index:5;
+}
+
+.icon{
+    font-size:70px;
+}
+
+h2{
+    margin:20px 0 25px;
+    font-size:22px;
+    color:#333;
+}
+
+button{
+    padding:12px 28px;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#yes{
+    background:#ff4d6d;
+    color:white;
+    font-weight:bold;
+}
+
+/* NO button */
+#no{
+    background:#e0e0e0;
+    position:fixed;
+    left:50%;
+    top:70%;
+    z-index:10;
+    transition:0.15s;
+}
+
+/* Floating hearts */
+.heart{
+    position:absolute;
+    font-size:18px;
+    animation:float 6s linear infinite;
+    opacity:0.8;
+}
+
+@keyframes float{
+    from{transform:translateY(100vh);opacity:0}
+    to{transform:translateY(-10vh);opacity:1}
+}
+
+/* Chat styles */
+.msg{
+    background:white;
+    padding:12px 15px;
+    border-radius:12px;
+    margin-bottom:10px;
+    font-size:16px;
+    animation:pop .4s ease;
+}
+
+@keyframes pop{
+    from{transform:scale(.8);opacity:0}
+    to{transform:scale(1);opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<!-- MAIN CARD -->
+<div class="card">
+    <div class="icon">🧸💖</div>
+    <h2><b>Anshuuuuu</b>, will you be my Valentine?</h2>
+    <button id="yes">YES 💘</button>
+</div>
+
+<button id="no">NO 💔</button>
+
+<script>
+/* NO button runs away on hover */
+const noBtn = document.getElementById("no");
+
+noBtn.addEventListener("mouseover",()=>{
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+/* YES button – creative reveal */
+document.getElementById("yes").onclick = () => {
+    document.body.innerHTML = `
+    <div style="
+        height:100vh;
+        width:100vw;
+        background:#e5ddd5;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        padding:20px;">
+        
+        <div style="width:100%;max-width:360px;">
+            <div class="msg">Hey Anshuuuuu 👋</div>
+            <div class="msg" style="display:none">I wanted to tell you something 🥺</div>
+            <div class="msg" style="display:none">You just made me really happy today 💖</div>
+
+            <div id="final" style="display:none;text-align:center;margin-top:25px;">
+                <div style="font-size:70px;">🧸💖</div>
+                <div style="
+                    background:#dcf8c6;
+                    padding:15px;
+                    border-radius:12px;
+                    font-size:18px;
+                    margin-top:10px;">
+                    Will you go on a Valentine date with me? 🌹
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+
+    const msgs = document.querySelectorAll(".msg");
+    const final = document.getElementById("final");
+
+    setTimeout(()=>msgs[1].style.display="block",800);
+    setTimeout(()=>msgs[2].style.display="block",1600);
+    setTimeout(()=>{
+        final.style.display="block";
+        confetti();
+    },2400);
+};
+
+/* Confetti */
+function confetti(){
+    for(let i=0;i<80;i++){
+        const c=document.createElement("div");
+        c.style.position="fixed";
+        c.style.width="8px";
+        c.style.height="8px";
+        c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+        c.style.left=Math.random()*100+"vw";
+        c.style.top="-10px";
+        c.style.animation=`fall ${Math.random()*3+2}s linear`;
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),5000);
+    }
+}
+
+/* Floating hearts generator */
+setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},300);
+</script>
+
+</body>
+</html>
